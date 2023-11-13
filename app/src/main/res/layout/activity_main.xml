@@ -22,36 +22,36 @@
         android:layout_height="match_parent"
         android:padding="32dp"    >
 
-    <LinearLayout
-        android:id="@+id/longalt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <TextView
-            android:id="@+id/tvLongitude"
+        <LinearLayout
+            android:id="@+id/longalt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="longitude"
-            android:textColor="@color/white"
+            android:paddingTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvLatitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="latitude"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/tvLongitude"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
+            tools:ignore="MissingConstraints">
+
+            <TextView
+                android:id="@+id/tvLongitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:text="longitude"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLatitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="latitude"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/tvLongitude"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
 
     <TextView
         android:id="@+id/tvCity"
@@ -69,7 +69,7 @@
         android:id="@+id/tvTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:text="24"
         android:textColor="@color/white"
         android:textSize="88sp"
@@ -133,6 +133,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="258dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="Search location"
+            android:textColorHint="@color/material_dynamic_neutral_variant50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btSearch"
+            android:onClick="searchLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/material_dynamic_primary10"
+            android:text="Search"
+            app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etSearch"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>

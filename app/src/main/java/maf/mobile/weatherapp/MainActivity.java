@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.location.LocationCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private WeatherAdapter weatherAdapter;
     private RecyclerView weatherRV;
     private ImageView backgroundImg;
+    private EditText etSearch;
+    private Button btSearch;
+    public double lat = -7.92;
+    public double lon = 112.62;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         wind = (TextView) findViewById(R.id.tvWind);
         backgroundImg = (ImageView) findViewById(R.id.ivBackground);
         weatherRV = (RecyclerView) findViewById(R.id.rvWeather);
+        etSearch = (EditText) findViewById(R.id.etSearch);
+        btSearch = (Button) findViewById(R.id.btSearch);
 
         weatherData = new ArrayList<>();
         weatherAdapter = new WeatherAdapter(this, weatherData);
@@ -62,11 +72,13 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         weatherRV.setLayoutManager(layoutManager);
 
-        getWeather();
+
+        getWeather(lat, lon);
+        
     }
 
-    private void getWeather(){
-        String url = "https://api.open-meteo.com/v1/forecast?latitude=-7.98&longitude=112.63&daily=weathercode&current_weather=true&timezone=auto";
+    private void getWeather(double lat, double lon){
+        String url = "https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&daily=weathercode&current_weather=true&timezone=auto";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -93,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     try{
                         List<Address> addresses = gcd.getFromLocation(lat,lon,1);
                         if (addresses.size() >0) {
-                            String kota = addresses.get(0).getLocality();
+                            String kota = addresses.get(0).getSubAdminArea();
                             city.setText(kota);
                         }
                     } catch (IOException e) {
@@ -159,5 +171,42 @@ public class MainActivity extends AppCompatActivity {
             condition.setText("Clear Sky");
             icon.setImageResource(R.drawable.sunny);
         }
+    }
+
+    private double getLatitude(String location){
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addressList;
+
+        try{
+            addressList = geocoder.getFromLocationName(location, 10);
+            if (addressList != null) {
+                lat = addressList.get(0).getLatitude();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return lat;
+    }
+
+    private double getLongitude(String location){
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addressList;
+
+        try{
+            addressList = geocoder.getFromLocationName(location, 10);
+            if (addressList != null) {
+                lon = addressList.get(0).getLongitude();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return lon;
+    }
+
+    public void searchLocation(View view) {
+        String loc = etSearch.getText().toString();
+        double latitude = getLatitude(loc);
+        double longitude = getLongitude(loc);
+        getWeather(latitude, longitude);
     }
 }
