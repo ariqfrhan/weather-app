@@ -48,11 +48,15 @@ public class MainActivity extends AppCompatActivity {
     private Button btSearch;
     public double lat = -7.92;
     public double lon = 112.62;
+    private View home;
+    private View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        home = findViewById(R.id.homeScreen);
+        progressBar  = findViewById(R.id.progressBar);
         longitude = (TextView) findViewById(R.id.tvLongitude);
         latitude = (TextView) findViewById(R.id.tvLatitude);
         city = (TextView) findViewById(R.id.tvCity);
@@ -84,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                progressBar.setVisibility(View.GONE);
+                home.setVisibility(View.VISIBLE);
 
                 try {
                     int isDay = response.getJSONObject("current_weather").getInt("is_day");
@@ -213,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void searchLocation(View view) {
+        progressBar.setVisibility(View.VISIBLE);
         String loc = etSearch.getText().toString();
         double latitude = getLatitude(loc);
         double longitude = getLongitude(loc);

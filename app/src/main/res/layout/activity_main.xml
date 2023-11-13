@@ -8,9 +8,20 @@
 
     tools:context=".MainActivity">
 
-    <RelativeLayout
+    <ProgressBar
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/progressBar"
+        android:backgroundTint="@color/white"
+        android:visibility="visible"
+        />
+
+    <RelativeLayout
+        android:id="@+id/homeScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        >
         <ImageView
             android:id="@+id/ivBackground"
             android:layout_width="match_parent"
