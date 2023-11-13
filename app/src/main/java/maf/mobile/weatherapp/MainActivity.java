@@ -105,7 +105,16 @@ public class MainActivity extends AppCompatActivity {
                     try{
                         List<Address> addresses = gcd.getFromLocation(lat,lon,1);
                         if (addresses.size() >0) {
-                            String kota = addresses.get(0).getSubAdminArea();
+                            String kota = "";
+                            for (Address addr : addresses) {
+                                if (addr.getSubAdminArea() != null && !addr.getSubAdminArea().isEmpty()) {
+                                    kota = addr.getSubAdminArea();
+                                    break;
+                                } else if (addr.getLocality() != null && !addr.getLocality().isEmpty()) {
+                                    kota = addr.getLocality();
+                                    break;
+                                }
+                            }
                             city.setText(kota);
                         }
                     } catch (IOException e) {
